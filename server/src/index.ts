@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import authRouter from "./routes/auth.routes"
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/api/auth', authRouter)
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
