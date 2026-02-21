@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  avatar    String?  // URL аватара, ? означает что поле необязательное
+  isOnline  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Связи
+  rooms           RoomMember[]    // комнаты в которых состоит пользователь
+  messages        Message[]       // сообщения пользователя в комнатах
+  sentDMs         DirectMessage[] @relation("SentDMs")     // отправленные DM
+  receivedDMs     DirectMessage[] @relation("ReceivedDMs") // полученные DM
+  refreshTokens   RefreshToken[]  // токены для авторизации
+}
+
+model Room {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+
+  // Связи
+  members  RoomMember[]
+  messages Message[]
+}
+
+// Промежуточная таблица для связи многие-ко-многим между User и Room
+// Когда пользователь вступает в комнату — создаётся запись здесь
+model RoomMember {
+  id       String   @id @default(uuid())
+  userId   String
+  roomId   String
+  joinedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roomId]) // один пользователь не может дважды войти в одну комнату
+}
+
+model Message {
+  id        String      @id @default(uuid())
+  content   String?     // текст сообщения (необязательный — если отправляется файл)
+  fileUrl   String?     // ссылка на файл в Cloudinary
+  fileType  String?     // тип файла: "image", "file"
+  createdAt DateTime    @default(now())
+
+  // Внешние ключи
+  userId String
+  roomId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
+
+model DirectMessage {
+  id        String   @id @default(uuid())
+  content   String?
+  fileUrl   String?
+  fileType  String?
+  createdAt DateTime @default(now())
+  isRead    Boolean  @default(false) // прочитано ли сообщение
+
+  senderId   String
+  receiverId String
+
+  sender   User @relation("SentDMs", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("ReceivedDMs", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+// Refresh токены храним в БД чтобы иметь возможность их отозвать (logout)
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
