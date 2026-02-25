@@ -3,6 +3,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import authRouter from "./routes/auth.routes"
+import roomsRouter from "./routes/rooms.routes"
+import usersRouter from "./routes/users.routes"
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/auth', authRouter)
+app.use('/api/rooms', roomsRouter)
+app.use('/api/users', usersRouter)
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
