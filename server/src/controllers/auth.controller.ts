@@ -2,12 +2,14 @@ import { Request, Response } from 'express'
 import { authService } from '../services/auth.service'
 
 // Настройки куки — выносим в константу чтобы не дублировать
+const isProd = process.env.NODE_ENV === 'production'
+
 const REFRESH_COOKIE_OPTIONS = {
-  httpOnly: true,      // недоступна через JS
-  secure: process.env.NODE_ENV === 'production', // только HTTPS в проде
-  sameSite: 'strict' as const,  // защита от CSRF
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 дней в миллисекундах
-  path: '/api/auth',   // кука отправляется только на этот путь
+  httpOnly: true,
+  secure: isProd,                                      // HTTPS в проде
+  sameSite: (isProd ? 'none' : 'strict') as 'none' | 'strict', // cross-domain в проде
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: '/api/auth',
 }
 
 export const authController = {

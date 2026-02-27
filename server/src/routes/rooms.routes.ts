@@ -12,9 +12,9 @@ router.use(authMiddleware)
 const createRoomSchema = z.object({
   name: z
     .string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(50, 'Name must be at most 50 characters')
-    .regex(/^[a-zA-Z0-9_-]+$/, 'Name can only contain letters, numbers, hyphens and underscores'),
+    .min(2, 'Название должно быть не короче 2 символов')
+    .max(50, 'Название должно быть не длиннее 50 символов')
+    .regex(/^[a-zA-Z0-9а-яА-ЯёЁ_-]+$/, 'Название может содержать буквы, цифры, _ и -'),
   description: z.string().max(200).optional(),
 })
 
