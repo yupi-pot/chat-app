@@ -23,6 +23,11 @@ export function Sidebar() {
     setActiveChat({ type: 'room', id: room.id });
   };
 
+  const handleJoinAndOpen = async (room: Room) => {
+    await joinRoom(room.id);
+    setActiveChat({ type: 'room', id: room.id });
+  };
+
   return (
     <>
       <aside className="w-full md:w-64 bg-gray-800 flex flex-col h-full shrink-0">
@@ -67,18 +72,14 @@ export function Sidebar() {
               {otherRooms.map((room) => (
                 <div key={room.id} className="flex items-center gap-1 mb-1">
                   <button
-                    onClick={() => handleRoomClick(room)}
-                    className={`flex-1 text-left px-3 py-2 rounded-lg transition-colors ${
-                      activeChat?.type === 'room' && activeChat.id === room.id
-                        ? 'bg-gray-600 text-white'
-                        : 'text-gray-500 hover:bg-gray-700 hover:text-gray-300'
-                    }`}
+                    onClick={() => handleJoinAndOpen(room)}
+                    className="flex-1 text-left px-3 py-2 rounded-lg transition-colors text-gray-500 hover:bg-gray-700 hover:text-gray-300"
                   >
                     <span className="mr-1">#</span>
                     {room.name}
                   </button>
                   <button
-                    onClick={() => joinRoom(room.id)}
+                    onClick={() => handleJoinAndOpen(room)}
                     className="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 transition-colors"
                     title="Вступить"
                   >
