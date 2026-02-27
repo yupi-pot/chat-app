@@ -14,14 +14,11 @@
   "license": "ISC",
   "type": "commonjs",
   "engines": {
-    "node": ">=20.19"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "node": ">=18.18"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.4.1",
-    "@prisma/client": "^7.4.1",
+    "@prisma/adapter-pg": "^6.0.0",
+    "@prisma/client": "^6.0.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
@@ -44,7 +41,7 @@
     "@types/node": "^25.3.0",
     "@types/pg": "^8.16.0",
     "nodemon": "^3.1.13",
-    "prisma": "^7.4.1",
+    "prisma": "^6.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
