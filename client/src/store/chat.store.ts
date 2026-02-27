@@ -106,6 +106,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       });
     });
 
+    socket.on('room:new', (room: Room) => {
+      set((s) => {
+        // Не добавляем если уже есть (создатель уже добавил через createRoom)
+        if (s.rooms.some((r) => r.id === room.id)) return s;
+        return { rooms: [...s.rooms, room] };
+      });
+    });
+
     socket.on('user:online', ({ userId }: { userId: string }) => {
       set((s) => ({
         users: s.users.map((u) => (u.id === userId ? { ...u, isOnline: true } : u)),

@@ -4,6 +4,13 @@ import { Express } from 'express'
 import { verifyAccessToken } from './utils/jwt'
 import { prisma } from './prismaClient'
 
+let _io: Server | null = null
+
+export function getIO(): Server {
+  if (!_io) throw new Error('Socket.IO not initialized')
+  return _io
+}
+
 export function initSocket(app: Express) {
   const httpServer = createServer(app)
 
@@ -25,6 +32,8 @@ export function initSocket(app: Express) {
     socket.data.user = payload
     next()
   })
+
+  _io = io
 
   io.on('connection', async (socket) => {
     const user = socket.data.user as { id: string; username: string; email: string }

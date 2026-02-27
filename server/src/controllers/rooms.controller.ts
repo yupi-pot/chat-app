@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { roomsService } from '../services/rooms.service'
 import { messagesService } from '../services/messages.service'
+import { getIO } from '../socket'
 
 export const roomsController = {
   async getRooms(req: Request, res: Response) {
@@ -27,6 +28,8 @@ export const roomsController = {
     try {
       const { name, description } = req.body
       const room = await roomsService.createRoom(name, description, req.user!.id)
+      // Оповещаем всех подключённых пользователей о новой комнате
+      getIO().emit('room:new', { ...room, memberCount: 1, isMember: false })
       res.status(201).json({ room })
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Server error'
