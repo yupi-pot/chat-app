@@ -9,7 +9,7 @@ interface AuthStore extends AuthState {
   register: (email: string, username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   initialize: () => Promise<void>;
-  updateProfile: (data: { username?: string }) => Promise<void>;
+  updateProfile: (data: { username?: string; avatar?: string }) => Promise<void>;
   setUser: (user: User | null) => void;
   setAccessToken: (token: string | null) => void;
 }
