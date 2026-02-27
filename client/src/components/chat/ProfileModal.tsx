@@ -1,4 +1,5 @@
-import { FormEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import type { FormEvent } from 'react';
 import { Modal } from '../ui/Modal';
 import { Avatar } from '../ui/Avatar';
 import { useAuth } from '../../hooks/useAuth';

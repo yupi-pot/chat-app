@@ -1,4 +1,5 @@
-import { FormEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import type { FormEvent } from 'react';
 import { uploadApi } from '../../api/upload.api';
 
 interface Props {
