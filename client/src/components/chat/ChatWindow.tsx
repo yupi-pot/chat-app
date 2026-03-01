@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useChat } from '../../hooks/useChat';
 import { useAuth } from '../../hooks/useAuth';
 import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
 import { Avatar } from '../ui/Avatar';
+import { uploadApi } from '../../api/upload.api';
 
 export function ChatWindow() {
   const { user } = useAuth();
@@ -27,7 +28,23 @@ export function ChatWindow() {
     stopDMTyping,
     isLoadingMessages,
     setActiveChat,
+    updateRoomAvatar,
   } = useChat();
+
+  const avatarFileRef = useRef<HTMLInputElement>(null);
+
+  const handleRoomAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || activeChat?.type !== 'room') return;
+    try {
+      const { data } = await uploadApi.upload(file);
+      await updateRoomAvatar(activeChat.id, data.url);
+    } catch {
+      alert('Не удалось загрузить аватар');
+    } finally {
+      e.target.value = '';
+    }
+  };
 
   // Загружаем сообщения при смене активного чата
   useEffect(() => {
@@ -64,8 +81,23 @@ export function ChatWindow() {
           >
             ←
           </button>
+          {/* Аватар комнаты — кликабельный для участников */}
+          <input
+            ref={avatarFileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/gif,image/webp"
+            className="hidden"
+            onChange={handleRoomAvatarUpload}
+          />
+          <button
+            onClick={() => room?.isMember && avatarFileRef.current?.click()}
+            className={room?.isMember ? 'cursor-pointer hover:opacity-80 transition-opacity' : 'cursor-default'}
+            title={room?.isMember ? 'Сменить аватар комнаты' : undefined}
+          >
+            <Avatar username={room?.name ?? ''} avatar={room?.avatar ?? null} size="sm" />
+          </button>
           <div>
-            <h2 className="text-white font-semibold">#{room?.name ?? '...'}</h2>
+            <h2 className="text-white font-semibold">{room?.name ?? '...'}</h2>
             {room?.description && (
               <p className="text-gray-500 text-xs">{room.description}</p>
             )}

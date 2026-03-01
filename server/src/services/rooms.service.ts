@@ -18,6 +18,7 @@ export const roomsService = {
       id: room.id,
       name: room.name,
       description: room.description,
+      avatar: room.avatar,
       createdAt: room.createdAt,
       memberCount: room._count.members,
       isMember: room.members.length > 0,
@@ -45,6 +46,7 @@ export const roomsService = {
       id: room.id,
       name: room.name,
       description: room.description,
+      avatar: room.avatar,
       createdAt: room.createdAt,
       isMember: room.members.some((m) => m.userId === userId),
       memberCount: room.members.length,
@@ -77,6 +79,19 @@ export const roomsService = {
     if (existing) throw new Error('Already a member')
 
     await prisma.roomMember.create({ data: { userId, roomId } })
+  },
+
+  // Обновить аватар комнаты (только участник)
+  async updateAvatar(roomId: string, userId: string, avatarUrl: string) {
+    const member = await prisma.roomMember.findUnique({
+      where: { userId_roomId: { userId, roomId } },
+    })
+    if (!member) throw new Error('Not a member of this room')
+
+    return prisma.room.update({
+      where: { id: roomId },
+      data: { avatar: avatarUrl },
+    })
   },
 
   // Покинуть комнату (нельзя покинуть general)

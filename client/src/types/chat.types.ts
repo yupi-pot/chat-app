@@ -2,6 +2,7 @@ export interface Room {
   id: string;
   name: string;
   description: string | null;
+  avatar: string | null;
   createdAt: string;
   memberCount: number;
   isMember: boolean;

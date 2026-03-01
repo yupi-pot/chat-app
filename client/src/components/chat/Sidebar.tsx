@@ -53,14 +53,14 @@ export function Sidebar() {
               <button
                 key={room.id}
                 onClick={() => handleRoomClick(room)}
-                className={`w-full text-left px-3 py-2.5 rounded-lg mb-1 transition-colors ${
+                className={`w-full text-left px-3 py-2.5 rounded-lg mb-1 transition-colors flex items-center gap-2 ${
                   activeChat?.type === 'room' && activeChat.id === room.id
                     ? 'bg-gray-600 text-white'
                     : 'text-gray-300 hover:bg-gray-700'
                 }`}
               >
-                <span className="text-gray-400 mr-1">#</span>
-                {room.name}
+                <Avatar username={room.name} avatar={room.avatar} size="sm" />
+                <span className="truncate">{room.name}</span>
               </button>
             ))}
           </div>
@@ -73,10 +73,10 @@ export function Sidebar() {
                 <div key={room.id} className="flex items-center gap-1 mb-1">
                   <button
                     onClick={() => handleJoinAndOpen(room)}
-                    className="flex-1 text-left px-3 py-2.5 rounded-lg transition-colors text-gray-500 hover:bg-gray-700 hover:text-gray-300"
+                    className="flex-1 text-left px-3 py-2.5 rounded-lg transition-colors text-gray-500 hover:bg-gray-700 hover:text-gray-300 flex items-center gap-2"
                   >
-                    <span className="mr-1">#</span>
-                    {room.name}
+                    <Avatar username={room.name} avatar={room.avatar} size="sm" />
+                    <span className="truncate">{room.name}</span>
                   </button>
                   <button
                     onClick={() => handleJoinAndOpen(room)}

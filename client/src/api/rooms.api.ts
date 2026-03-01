@@ -21,4 +21,7 @@ export const roomsApi = {
     api.get<MessagesPage>(`/api/rooms/${id}/messages`, {
       params: cursor ? { cursor } : {},
     }),
+
+  updateAvatar: (id: string, avatarUrl: string) =>
+    api.patch<{ room: Room }>(`/api/rooms/${id}/avatar`, { avatarUrl }),
 };

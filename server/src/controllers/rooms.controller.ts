@@ -60,6 +60,21 @@ export const roomsController = {
     }
   },
 
+  async updateAvatar(req: Request, res: Response) {
+    try {
+      const { avatarUrl } = req.body
+      if (!avatarUrl || typeof avatarUrl !== 'string') {
+        return res.status(400).json({ message: 'avatarUrl is required' })
+      }
+      const room = await roomsService.updateAvatar(req.params.id as string, req.user!.id, avatarUrl)
+      res.json({ room })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Server error'
+      const status = message === 'Not a member of this room' ? 403 : 500
+      res.status(status).json({ message })
+    }
+  },
+
   async getRoomMessages(req: Request, res: Response) {
     try {
       const cursor = req.query.cursor as string | undefined

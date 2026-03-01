@@ -33,6 +33,9 @@ router.post('/:id/join', roomsController.joinRoom)
 // DELETE /api/rooms/:id/leave — покинуть комнату
 router.delete('/:id/leave', roomsController.leaveRoom)
 
+// PATCH /api/rooms/:id/avatar — обновить аватар комнаты
+router.patch('/:id/avatar', roomsController.updateAvatar)
+
 // GET /api/rooms/:id/messages — история сообщений (query: ?cursor=)
 router.get('/:id/messages', roomsController.getRoomMessages)
 

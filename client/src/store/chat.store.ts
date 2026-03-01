@@ -45,6 +45,7 @@ interface ChatStore {
   createRoom: (name: string, description?: string) => Promise<void>;
   joinRoom: (roomId: string) => Promise<void>;
   leaveRoom: (roomId: string) => Promise<void>;
+  updateRoomAvatar: (roomId: string, avatarUrl: string) => Promise<void>;
   startTyping: (roomId: string) => void;
   stopTyping: (roomId: string) => void;
   startDMTyping: (userId: string) => void;
@@ -281,6 +282,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       rooms: s.rooms.map((r) =>
         r.id === roomId ? { ...r, isMember: false, memberCount: r.memberCount - 1 } : r
       ),
+    }));
+  },
+
+  updateRoomAvatar: async (roomId, avatarUrl) => {
+    const { data } = await roomsApi.updateAvatar(roomId, avatarUrl);
+    set((s) => ({
+      rooms: s.rooms.map((r) => r.id === roomId ? { ...r, avatar: data.room.avatar } : r),
     }));
   },
 
