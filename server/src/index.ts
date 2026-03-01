@@ -18,8 +18,16 @@ const isDev = process.env.NODE_ENV !== "production";
 
 app.use(
   cors({
-    // В dev-режиме разрешаем любой origin, в проде — только из списка
-    origin: isDev ? true : allowedOrigins,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      // Dev — разрешаем всё
+      if (isDev) return callback(null, true);
+      // Prod — whitelist + любой Vercel preview
+      if (allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+        return callback(null, true);
+      }
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   }),
 );
