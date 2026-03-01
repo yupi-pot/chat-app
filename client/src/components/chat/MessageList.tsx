@@ -80,7 +80,7 @@ export function MessageList({ messages, currentUserId, hasMore, onLoadMore, typi
                   <img
                     src={msg.fileUrl}
                     alt="изображение"
-                    className="max-w-xs rounded-2xl cursor-pointer hover:opacity-90 transition-opacity"
+                    className="max-w-[200px] sm:max-w-xs rounded-2xl cursor-pointer hover:opacity-90 transition-opacity"
                   />
                 </a>
               )}

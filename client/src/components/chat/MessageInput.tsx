@@ -63,7 +63,11 @@ export function MessageInput({ onSend, onTypingStart, onTypingStop, placeholder 
   };
 
   return (
-    <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-gray-700">
+    <form
+      onSubmit={handleSubmit}
+      className="px-4 pt-3 border-t border-gray-700"
+      style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}
+    >
       {/* Превью файла */}
       {preview && (
         <div className="mb-2 flex items-center gap-2 bg-gray-700 rounded-lg px-3 py-2">

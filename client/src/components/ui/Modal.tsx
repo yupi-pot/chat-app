@@ -19,15 +19,18 @@ export function Modal({ title, onClose, children }: Props) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
+      className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-50"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="bg-gray-800 rounded-2xl w-full max-w-sm shadow-2xl">
+      <div
+        className="bg-gray-800 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-sm shadow-2xl"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
         <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-700">
           <h2 className="text-white font-semibold">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-300 text-xl leading-none transition-colors"
+            className="text-gray-500 hover:text-gray-300 text-xl leading-none transition-colors p-1"
           >
             ×
           </button>

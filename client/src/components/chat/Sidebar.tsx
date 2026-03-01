@@ -44,7 +44,7 @@ export function Sidebar() {
               <button
                 onClick={() => setShowCreateRoom(true)}
                 title="Создать комнату"
-                className="text-gray-500 hover:text-gray-300 text-lg leading-none transition-colors"
+                className="text-gray-500 hover:text-gray-300 text-lg leading-none transition-colors w-8 h-8 flex items-center justify-center rounded"
               >
                 +
               </button>
@@ -53,7 +53,7 @@ export function Sidebar() {
               <button
                 key={room.id}
                 onClick={() => handleRoomClick(room)}
-                className={`w-full text-left px-3 py-2 rounded-lg mb-1 transition-colors ${
+                className={`w-full text-left px-3 py-2.5 rounded-lg mb-1 transition-colors ${
                   activeChat?.type === 'room' && activeChat.id === room.id
                     ? 'bg-gray-600 text-white'
                     : 'text-gray-300 hover:bg-gray-700'
@@ -73,7 +73,7 @@ export function Sidebar() {
                 <div key={room.id} className="flex items-center gap-1 mb-1">
                   <button
                     onClick={() => handleJoinAndOpen(room)}
-                    className="flex-1 text-left px-3 py-2 rounded-lg transition-colors text-gray-500 hover:bg-gray-700 hover:text-gray-300"
+                    className="flex-1 text-left px-3 py-2.5 rounded-lg transition-colors text-gray-500 hover:bg-gray-700 hover:text-gray-300"
                   >
                     <span className="mr-1">#</span>
                     {room.name}

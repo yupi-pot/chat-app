@@ -60,7 +60,7 @@ export function ChatWindow() {
           {/* Кнопка назад — только мобильная */}
           <button
             onClick={() => setActiveChat(null)}
-            className="md:hidden text-gray-400 hover:text-white transition-colors text-xl leading-none"
+            className="md:hidden text-gray-400 hover:text-white transition-colors text-xl leading-none p-2 -ml-2"
           >
             ←
           </button>

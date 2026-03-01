@@ -14,16 +14,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173").split(",").map(s => s.trim());
+const isDev = process.env.NODE_ENV !== "production";
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    // В dev-режиме разрешаем любой origin, в проде — только из списка
+    origin: isDev ? true : allowedOrigins,
     credentials: true,
   }),
 );

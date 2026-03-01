@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* iOS: не масштабировать текст при повороте */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Убираем синюю подсветку при тапе на Android */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Запрещаем "резиновый" скролл всей страницы */
+body {
+  overscroll-behavior: none;
+}
