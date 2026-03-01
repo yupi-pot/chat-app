@@ -13,6 +13,7 @@ export function MessageInput({ onSend, onTypingStart, onTypingStop, placeholder 
   const [text, setText] = useState('');
   const [preview, setPreview] = useState<{ url: string; name: string; fileType: 'image' | 'file' } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isTyping = useRef(false);
@@ -39,7 +40,8 @@ export function MessageInput({ onSend, onTypingStart, onTypingStop, placeholder 
       const { data } = await uploadApi.upload(file);
       setPreview({ url: data.url, name: file.name, fileType: data.fileType });
     } catch {
-      alert('Не удалось загрузить файл');
+      setUploadError('Не удалось загрузить файл');
+      setTimeout(() => setUploadError(''), 3000);
     } finally {
       setIsUploading(false);
       // сброс input чтобы можно было выбрать тот же файл повторно
@@ -68,6 +70,11 @@ export function MessageInput({ onSend, onTypingStart, onTypingStop, placeholder 
       className="px-4 pt-3 border-t border-gray-700"
       style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}
     >
+      {uploadError && (
+        <p className="mb-2 text-xs text-red-400 bg-red-900/30 rounded-lg px-3 py-1.5">
+          {uploadError}
+        </p>
+      )}
       {/* Превью файла */}
       {preview && (
         <div className="mb-2 flex items-center gap-2 bg-gray-700 rounded-lg px-3 py-2">

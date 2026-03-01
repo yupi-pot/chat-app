@@ -39,16 +39,7 @@ export function Sidebar() {
         <div className="flex-1 overflow-y-auto">
           {/* Мои комнаты */}
           <div className="px-3 pt-4">
-            <div className="flex items-center justify-between mb-2 px-1">
-              <p className="text-xs text-gray-500 uppercase font-semibold">Комнаты</p>
-              <button
-                onClick={() => setShowCreateRoom(true)}
-                title="Создать комнату"
-                className="text-gray-500 hover:text-gray-300 text-lg leading-none transition-colors w-8 h-8 flex items-center justify-center rounded"
-              >
-                +
-              </button>
-            </div>
+            <p className="text-xs text-gray-500 uppercase font-semibold mb-2 px-1">Комнаты</p>
             {myRooms.map((room) => (
               <button
                 key={room.id}
@@ -63,27 +54,31 @@ export function Sidebar() {
                 <span className="truncate">{room.name}</span>
               </button>
             ))}
+            {/* Кнопка создать комнату */}
+            <button
+              onClick={() => setShowCreateRoom(true)}
+              className="w-full mt-1 px-3 py-2 rounded-lg border border-dashed border-gray-600 text-gray-500 hover:border-gray-400 hover:text-gray-300 transition-colors flex items-center gap-2 text-sm"
+            >
+              <span className="text-base leading-none">+</span>
+              Создать комнату
+            </button>
           </div>
 
           {/* Другие комнаты — вступить */}
           {otherRooms.length > 0 && (
             <div className="px-3 pt-4">
-              <p className="text-xs text-gray-500 uppercase font-semibold mb-2 px-1">Вступить</p>
+              <p className="text-xs text-gray-500 uppercase font-semibold mb-2 px-1">Доступные комнаты</p>
               {otherRooms.map((room) => (
-                <div key={room.id} className="flex items-center gap-1 mb-1">
-                  <button
-                    onClick={() => handleJoinAndOpen(room)}
-                    className="flex-1 text-left px-3 py-2.5 rounded-lg transition-colors text-gray-500 hover:bg-gray-700 hover:text-gray-300 flex items-center gap-2"
-                  >
+                <div key={room.id} className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 flex-1 min-w-0 px-3 py-2">
                     <Avatar username={room.name} avatar={room.avatar} size="sm" />
-                    <span className="truncate">{room.name}</span>
-                  </button>
+                    <span className="truncate text-sm text-gray-400">{room.name}</span>
+                  </div>
                   <button
                     onClick={() => handleJoinAndOpen(room)}
-                    className="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 transition-colors"
-                    title="Вступить"
+                    className="shrink-0 text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
                   >
-                    +
+                    Вступить
                   </button>
                 </div>
               ))}
